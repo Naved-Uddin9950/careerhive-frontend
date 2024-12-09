@@ -14,12 +14,14 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
+  console.log("welcome")
   return (
     <div>
       <Routes>
         <Route path="/" element={<Layout />} errorElement={<ErrorPage />}>
           <Route path="" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path='register' element={<Register />} />
+       
         </Route>
 
         <Route path="*" element={<NotFound />} />
