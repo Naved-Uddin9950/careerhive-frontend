@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import { useAuth } from './contexts/AuthContext';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import ErrorPage from './pages/Error';
+import Layout from './pages/Layout';
+import Register from './pages/Register';
+
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/register" />;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <Routes>
+        <Route path="/" element={<Layout />} errorElement={<ErrorPage />}>
+          <Route path="" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path='register' element={<Register />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+        <Route path="/error" element={<ErrorPage />} />
+      </Routes>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={true}
+        closeButton={true}
+        pauseOnHover={false}
+        draggable={false}
+        theme="colored"
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;

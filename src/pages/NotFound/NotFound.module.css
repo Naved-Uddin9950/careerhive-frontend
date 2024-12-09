@@ -1,0 +1,15 @@
+.container {
+  @apply flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white;
+}
+
+.heading {
+  @apply text-5xl font-bold text-primary mb-6;
+}
+
+.message {
+  @apply text-lg text-gray-300 text-center mb-4;
+}
+
+.homeLink {
+  @apply text-lg text-blue-500 underline hover:text-blue-300 transition duration-300;
+}

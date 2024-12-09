@@ -1,0 +1,11 @@
+.container {
+  @apply flex flex-col items-center justify-center h-screen w-screen bg-gray-900 text-white;
+}
+
+.heading {
+  @apply text-4xl font-bold text-primary mb-4;
+}
+
+.message {
+  @apply text-lg text-gray-300 text-center;
+}
