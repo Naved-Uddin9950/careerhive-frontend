@@ -17,9 +17,7 @@ console.log("my changes")
 
 
 function App() {
-  console.log("fkdddkkkdkdkdkdkk");
-  console.log("fkdddkkkdkdkdkdkk");
-  console.log("fkdddkkkdkdkdkdkk");
+
 
   
   return (
