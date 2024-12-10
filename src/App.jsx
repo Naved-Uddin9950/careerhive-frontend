@@ -13,6 +13,9 @@ const ProtectedRoute = ({ children }) => {
   return isAuthenticated ? children : <Navigate to="/register" />;
 };
 
+console.log("my changes")
+
+
 function App() {
   console.log("fkdddkkkdkdkdkdkk");
   console.log("fkdddkkkdkdkdkdkk");
