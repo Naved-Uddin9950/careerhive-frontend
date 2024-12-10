@@ -1,0 +1,27 @@
+.header-container {
+    @apply flex justify-between items-center bg-tertiary shadow-md p-4 font-semibold text-white;
+}
+
+.logo-container {
+    @apply flex items-center space-x-4;
+}
+
+.logo {
+    @apply w-auto h-8;
+}
+
+.search-container {
+    @apply flex-1 mx-4;
+}
+
+.searchbar {
+    @apply border-2 border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 w-full text-black focus:outline-none;
+}
+
+.nav-container {
+    @apply flex items-center space-x-6;
+}
+
+.nav-item {
+    @apply hover:text-complementary cursor-pointer;
+}
