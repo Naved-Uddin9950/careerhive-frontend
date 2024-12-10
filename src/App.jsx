@@ -15,6 +15,9 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   console.log("fkdddkkkdkdkdkdkk");
+  console.log("fkdddkkkdkdkdkdkk");
+  console.log("fkdddkkkdkdkdkdkk");
+
   
   return (
     <div>
