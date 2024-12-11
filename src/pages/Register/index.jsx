@@ -62,7 +62,9 @@ const Register = () => {
   };
 
 
-  
+ 
+
+
   return (
     <AuthInnerPage image="https://purisconsulting.com/wp-content/uploads/2019/01/Company-Branding_team-work.png">
       <form onSubmit={formik.handleSubmit} className={styles["form-container"]}>
