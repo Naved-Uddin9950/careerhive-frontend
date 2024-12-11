@@ -7,7 +7,7 @@
 }
 
 .logo {
-    @apply w-auto h-8;
+    @apply text-2xl;
 }
 
 .search-container {

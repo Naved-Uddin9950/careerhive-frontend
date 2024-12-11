@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useAuth } from './contexts/AuthContext';

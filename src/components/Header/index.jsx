@@ -9,11 +9,7 @@ const index = () => {
     return (
         <header className={styles["header-container"]}>
             <div className={styles["logo-container"]}>
-                <img 
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWMjR7gx6W5-B-hglc98RYENcZeIrSg0t6aA&s" 
-                    alt="CareerHive Logo" 
-                    className={styles["logo"]}
-                />
+               <h2 className={styles["logo"]}>CareerHive</h2>
             </div>
 
             <div className={styles["search-container"]}>
