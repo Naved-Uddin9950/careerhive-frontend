@@ -9,6 +9,7 @@ import ErrorPage from './pages/Error';
 import Layout from './pages/Layout';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import RecruiterDashboard from './pages/RecruiterDashboard';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -23,6 +24,9 @@ function App() {
           <Route path="" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path='register' element={<Register />} />
           <Route path='login' element={<Login />} />
+        </Route>
+        <Route path="/recruiter" errorElement={<ErrorPage />}>
+          <Route path='' element={<RecruiterDashboard />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
