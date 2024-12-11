@@ -1,0 +1,15 @@
+.input-container {
+    @apply relative;
+}
+
+.input {
+    @apply block border-[1px] border-gray-300 px-2.5 pt-4 pb-2.5 focus:border-blue-600 rounded-lg focus:ring-0 w-full text-gray-900 text-sm appearance-none focus:outline-none;
+}
+
+.label {
+    @apply top-2 peer-focus:top-2 peer-placeholder-shown:top-1/2 rtl:peer-focus:left-auto z-10 absolute bg-white px-2 peer-focus:px-2 text-gray-500 text-base peer-focus:text-blue-600 transform origin-[0] -translate-y-4 peer-focus:-translate-y-4 peer-placeholder-shown:-translate-y-1/2 rtl:peer-focus:translate-x-1/4 duration-300 peer-focus:scale-75 peer-placeholder-shown:scale-100 scale-75 start-1;
+}
+
+.error {
+    @apply mt-1 text-red-500 text-sm;
+}
