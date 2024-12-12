@@ -26,7 +26,7 @@ function App() {
           <Route path='login' element={<Login />} />
         </Route>
         <Route path="/recruiter" errorElement={<ErrorPage />}>
-          <Route path='' element={<RecruiterDashboard />} />
+          <Route path='' element={<ProtectedRoute><RecruiterDashboard /></ProtectedRoute>} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

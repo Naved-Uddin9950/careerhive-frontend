@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
@@ -16,19 +17,22 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (userData) => {
-        setUser(userData);
+        setUser(userData.user);
+        setToken(userData.token);
         setIsAuthenticated(true);
-        Cookies.set('user', JSON.stringify(userData), { expires: 7 });
+        Cookies.set('user', JSON.stringify(userData.user), { expires: 7 });
+        Cookies.set('token', JSON.stringify(userData.token), { expires: 7 });
     };
 
     const logout = () => {
         setUser(null);
         setIsAuthenticated(false);
         Cookies.remove('user');
+        Cookies.remove('token');
     };
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, token, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

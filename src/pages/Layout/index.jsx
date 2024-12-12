@@ -9,7 +9,7 @@ const index = () => {
         <div className='w-full h-full'>
             <Header />
             <Outlet />
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }
