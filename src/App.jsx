@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import AddPost from "./pages/RecruiterDashboard/JobPostings/AddPost";
 import JobPostings from "./pages/RecruiterDashboard/JobPostings";
+import Job from './pages/Job';
 import Cookies from "js-cookie";
 import { useLocation } from "react-router-dom";
 const ProtectedRoute = ({ children }) => {
@@ -30,7 +31,7 @@ function App() {
           <Route
             path=""
             element={
-                <Home />
+              <Home />
             }
           />
           <Route path="register" element={<Register />} />
@@ -47,6 +48,18 @@ function App() {
         >
           <Route path="" element={<JobPostings />} />
           <Route path="create-post" element={<AddPost />} />
+        </Route>
+
+        <Route
+          path="/jobseeker"
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+          errorElement={<ErrorPage />}
+        >
+          <Route path="job" element={<Job />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
