@@ -44,6 +44,9 @@ import {
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import styles from "./AddPost.module.css";
+import { postAPI, postAPIAuth } from "../../../../utils/apiService";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { toast } from "react-toastify";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -75,9 +78,31 @@ const validationSchema = Yup.object().shape({
 
 const index = () => {
   const handleSubmit = (values, { resetForm }) => {
-    console.log("Job posting data:", values);
-    message.success("Job posting created successfully!");
-    resetForm();
+    addPostHandler(values, resetForm);
+  };
+
+  const { token } = useAuth();
+  const addPostHandler = async (values, resetForm) => {
+    const body = {
+      title: values.title,
+      description: values.description,
+      type: values.type,
+      location: values.location,
+      skills: values.skills,
+      salaryMin: values.salaryMin,
+      salaryMax: values.salaryMax,
+    };
+
+    try {
+      console.log({ body });
+      const res = await postAPIAuth("/recruiter/create-post", body, token);
+      if (res.data.success) {
+        toast.success("Job Add Successfull");
+        resetForm();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -106,7 +131,6 @@ const index = () => {
         onSubmit={handleSubmit}
       >
         {({ values, setFieldValue, resetForm }) => {
-            console.log({values})
           return (
             <Form layout="vertical" className="space-y-4 w-full">
               <div className={styles["input-container"]}>
@@ -202,7 +226,6 @@ const index = () => {
                   <Field
                     name="location"
                     as={Input}
-
                     placeholder="Enter job location"
                   />
 

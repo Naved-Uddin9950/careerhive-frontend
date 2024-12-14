@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Select, Row, Col } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import { getApiAuth } from "../../../utils/apiService";
+import { deleteApi, getApiAuth } from "../../../utils/apiService";
+import { toast } from "react-toastify";
 const JobPostings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
@@ -66,19 +67,29 @@ const JobPostings = () => {
       render: (_, record) => (
         <Space>
           <Button>Edit</Button>
-          <Button danger>Delete</Button>
+          <Button onClick={() => deleteJobPostHandler(record.key)} danger>
+            Delete
+          </Button>
         </Space>
       ),
     },
   ];
-
-
-
   const handlePageSizeChange = (value) => {
     setPageSize(value);
     setCurrentPage(1);
   };
 
+  const deleteJobPostHandler = async (id) => {
+    try {
+      const res = await deleteApi(`/recruiter/post?id=${id}`, token);
+      if (res?.data?.success) {
+        toast.success(res?.data?.message);
+        getJobPosting();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <Row justify="space-between" align="middle" style={{ marginBottom: 16 }}>

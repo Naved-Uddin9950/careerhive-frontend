@@ -30,6 +30,22 @@ export const getApiAuth = async (url, token) => {
   }
 };
 
+export const deleteApi = async (url, token) => {
+  try {
+    const response = await axios.delete(`${baseURL}${url}`, {
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    toast.error(error.message);
+    return error;
+  }
+};
+
 export const getApi = async (url) => {
   try {
     const response = await axios.get(`${baseURL}${url}`, {
@@ -45,16 +61,18 @@ export const getApi = async (url) => {
   }
 };
 
-// export const postAPIAuth = async (url, params, toast) => {
-//     try {
-//         const response = await axios.post(`${baseURL}${url}`, params, {
-//             headers: {
-//             },
-//         });
-//         return response;
-//     } catch (error) {
-
-//         toast.error(error.message);
-//         return error;
-//     }
-// };
+export const postAPIAuth = async (url, params, token) => {
+  try {
+    const response = await axios.post(`${baseURL}${url}`, params, {
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    // toast.error(error.message);
+    return error;
+  }
+};
