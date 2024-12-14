@@ -1,0 +1,7 @@
+.form-item {
+    @apply w-full;
+}
+
+.input-container {
+    @apply flex items-center gap-2 w-full;
+}

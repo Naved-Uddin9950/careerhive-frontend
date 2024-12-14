@@ -1,0 +1,3 @@
+.dashboard-container {
+    @apply flex lg:flex-row flex-col h-screen;
+}
