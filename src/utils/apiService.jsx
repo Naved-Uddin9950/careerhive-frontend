@@ -1,7 +1,8 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 const baseURL = import.meta.env.VITE_API_URL;
 
-export const postAPI = async (url, params, toast) => {
+export const postAPI = async (url, params) => {
   try {
     const response = await axios.post(`${baseURL}${url}`, params, {
       headers: {},
@@ -20,6 +21,21 @@ export const getApiAuth = async (url, token) => {
         "Content-Type": "application/json; charset=utf-8",
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    toast.error(error.message);
+    return error;
+  }
+};
+
+export const getApi = async (url) => {
+  try {
+    const response = await axios.get(`${baseURL}${url}`, {
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Accept: "application/json",
       },
     });
     return response;
