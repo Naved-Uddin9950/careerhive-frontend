@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Layout, Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import DashboardSidebar from './DashboardSidebar';
-import JobPostings from './JobPostings';
 import { Outlet } from 'react-router-dom';
+import styles from './RecruiterDashboard.module.css';
 
 const { Content } = Layout;
 
@@ -11,21 +11,8 @@ const RecruiterDashboard = () => {
     const [activeTab, setActiveTab] = useState('stats');
     const [isSidebarVisible, setSidebarVisible] = useState(false);
 
-    const renderContent = () => {
-        switch (activeTab) {
-            case 'stats':
-                return <JobPostings />;
-            case 'jobPostings':
-                return <JobPostings />;
-            case 'applications':
-                return <JobPostings />;
-            default:
-                return <JobPostings />;
-        }
-    };
-
     return (
-        <Layout className="flex lg:flex-row flex-col h-screen">
+        <Layout className={styles["dashboard-container"]}>
             <Button
                 className="lg:hidden m-4"
                 icon={<MenuOutlined />}

@@ -18,7 +18,7 @@ const index = () => {
     };
 
     return (
-        <div style={{ maxWidth: 600, margin: '0 auto', padding: 24, background: '#fff', borderRadius: 8 }}>
+        <div style={{ margin: '0 auto', padding: 24, background: '#fff', borderRadius: 8 }}>
             <Title level={3} style={{ textAlign: 'center', marginBottom: 24 }}>
                 Create New Job Posting
             </Title>
