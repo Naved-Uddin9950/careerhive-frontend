@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Button } from "antd";
-import { ConsoleSqlOutlined, MenuOutlined } from "@ant-design/icons";
+import {  MenuOutlined } from "@ant-design/icons";
 import DashboardSidebar from "./DashboardSidebar";
 import { Outlet } from "react-router-dom";
 import styles from "./RecruiterDashboard.module.css";
 import { useAuth } from "../../contexts/AuthContext";
+
 const { Content } = Layout;
 
 const RecruiterDashboard = () => {
@@ -16,6 +17,7 @@ const RecruiterDashboard = () => {
       logout();
     }
   }, [activeTab]);
+
   return (
     <Layout className={styles["dashboard-container"]}>
       <Button

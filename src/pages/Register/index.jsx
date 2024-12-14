@@ -72,7 +72,7 @@ const index = () => {
     };
     try {
       setLoading(true);
-      const res = await postAPI("/api/users/register", body, toast);
+      const res = await postAPI("/users/register", body, toast);
       console.log({ res });
       // navigate("/login")
     } catch (error) {
