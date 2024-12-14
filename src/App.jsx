@@ -10,6 +10,8 @@ import Layout from './pages/Layout';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import RecruiterDashboard from './pages/RecruiterDashboard';
+import AddPost from './pages/RecruiterDashboard/JobPostings/AddPost';
+import JobPostings from './pages/RecruiterDashboard/JobPostings';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -25,13 +27,14 @@ function App() {
           <Route path='register' element={<Register />} />
           <Route path='login' element={<Login />} />
         </Route>
-        <Route path="/recruiter" errorElement={<ErrorPage />}>
-          <Route path='' element={<ProtectedRoute><RecruiterDashboard /></ProtectedRoute>} />
+        <Route path="/recruiter" element={<ProtectedRoute><RecruiterDashboard /></ProtectedRoute>} errorElement={<ErrorPage />}>
+          <Route path='' element={<JobPostings />} />
+          <Route path='create-post' element={<AddPost />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
         <Route path="/error" element={<ErrorPage />} />
-      </Routes>
+      </Routes >
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -41,7 +44,7 @@ function App() {
         draggable={false}
         theme="colored"
       />
-    </div>
+    </div >
   );
 }
 

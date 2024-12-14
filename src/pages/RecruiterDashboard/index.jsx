@@ -3,6 +3,7 @@ import { Layout, Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import DashboardSidebar from './DashboardSidebar';
 import JobPostings from './JobPostings';
+import { Outlet } from 'react-router-dom';
 
 const { Content } = Layout;
 
@@ -41,7 +42,9 @@ const RecruiterDashboard = () => {
             </div>
 
             <Layout className="flex-1">
-                <Content className="bg-gray-100 p-4">{renderContent()}</Content>
+                <Content className="bg-gray-100 p-4">
+                    <Outlet />
+                </Content>
             </Layout>
         </Layout>
     );
