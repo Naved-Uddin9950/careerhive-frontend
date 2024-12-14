@@ -13,7 +13,7 @@ import RecruiterDashboard from './pages/RecruiterDashboard';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/register" />;
+  return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 function App() {
