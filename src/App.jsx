@@ -15,12 +15,14 @@ import Cookies from "js-cookie";
 import { useLocation } from "react-router-dom";
 const ProtectedRoute = ({ children }) => {
   const storedUser = Cookies.get("user");
+  if (!storedUser) {
+    return <Navigate to="/login" />;
+  }
   const userData = JSON.parse(storedUser);
   return userData ? children : <Navigate to="/login" />;
 };
 
 function App() {
-  
   return (
     <div>
       <Routes>

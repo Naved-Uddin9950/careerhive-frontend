@@ -12,18 +12,21 @@ import { useAuth } from "../../contexts/AuthContext";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
 const Login = () => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const storedUser = Cookies.get("user");
+  useEffect(() => {
+    if (!storedUser) {
+      navigate("/login");
+      return;
+    }
 
-
-    const navigate = useNavigate();
-    const { pathname } = useLocation();
-    const storedUser = Cookies.get("user");
     const userData = JSON.parse(storedUser);
-    useEffect(() => {
-      if ((pathname === "/login" || pathname === "/register") && userData) {
-        console.log({ pathname, userData });
-        navigate("/recruiter");
-      }
-    }, []);
+    if ((pathname === "/login" || pathname === "/register") && userData) {
+      console.log({ pathname, userData });
+      navigate("/recruiter");
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +48,6 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  
 
   const loginHandler = async (values, setSubmitting, resetForm) => {
     const body = {

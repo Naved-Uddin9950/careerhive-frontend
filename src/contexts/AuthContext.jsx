@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
-
+import { useNavigate } from 'react-router-dom';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    const navigate = useNavigate()
     useEffect(() => {
         const storedUser = Cookies.get('user');
         if (storedUser) {
@@ -22,6 +23,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         Cookies.set('user', JSON.stringify(userData.user), { expires: 7 });
         Cookies.set('token', JSON.stringify(userData.token), { expires: 7 });
+        
     };
 
     const logout = () => {
@@ -29,8 +31,8 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         Cookies.remove('user');
         Cookies.remove('token');
+        navigate("/login")
     };
-
     return (
         <AuthContext.Provider value={{ user, isAuthenticated, token, login, logout }}>
             {children}

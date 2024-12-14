@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ErrorMessage, Field, useFormik } from "formik";
+import {  useFormik } from "formik";
 import * as Yup from "yup";
 import AuthInnerPage from "../../components/AuthInnerPage";
 import Input from "../../components/Input";
@@ -13,14 +13,14 @@ import Cookies from "js-cookie";
 const index = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
   const storedUser = Cookies.get("user");
 
-  const userData = JSON.parse(storedUser);
-
   useEffect(() => {
+    if (!storedUser) {
+      return;
+    }
+    const userData = JSON.parse(storedUser);
     if ((pathname === "/login" || pathname === "/register") && userData) {
-      console.log({ pathname, userData });
       navigate("/recruiter");
     }
   }, []);
