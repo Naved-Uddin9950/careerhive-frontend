@@ -38,7 +38,7 @@ const index = () => {
                 initialValues={{
                     title: '',
                     description: '',
-                    type: '',
+                    type: 'full-time',
                     salaryMin: '',
                     salaryMax: '',
                 }}
@@ -101,12 +101,13 @@ const index = () => {
                         <div className={styles["input-container"]}>
                             <div className={styles["form-item"]}>
                                 <label htmlFor="salaryMin">Salary Range (Minimum)</label>
-                                <Field
+                                <InputNumber
                                     name="salaryMin"
-                                    as={InputNumber}
                                     placeholder="Minimum salary"
                                     style={{ width: '100%' }}
+                                    value={values.salaryMin}
                                     min={0}
+                                    onChange={(value) => setFieldValue('salaryMin', value)}
                                 />
                                 <ErrorMessage
                                     name="salaryMin"
@@ -117,12 +118,13 @@ const index = () => {
 
                             <div className={styles["form-item"]}>
                                 <label htmlFor="salaryMax">Salary Range (Maximum)</label>
-                                <Field
+                                <InputNumber
                                     name="salaryMax"
-                                    as={InputNumber}
                                     placeholder="Maximum salary"
                                     style={{ width: '100%' }}
-                                    min={0}
+                                    value={values.salaryMax}
+                                    min={values.salaryMin || 0}
+                                    onChange={(value) => setFieldValue('salaryMax', value)} 
                                 />
                                 <ErrorMessage
                                     name="salaryMax"
