@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ErrorMessage, Field, useFormik } from "formik";
 import * as Yup from "yup";
 import AuthInnerPage from "../../components/AuthInnerPage";
@@ -7,9 +7,23 @@ import styles from "./Register.module.css";
 import { postAPI } from "../../utils/apiService";
 import { toast } from "react-toastify";
 import { Spin } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const index = () => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const storedUser = Cookies.get("user");
+
+  const userData = JSON.parse(storedUser);
+
+  useEffect(() => {
+    if ((pathname === "/login" || pathname === "/register") && userData) {
+      console.log({ pathname, userData });
+      navigate("/recruiter");
+    }
+  }, []);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -48,7 +62,6 @@ const index = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const registerHandler = async (values, setSubmitting, resetForm) => {
     const body = {
@@ -60,7 +73,8 @@ const index = () => {
     try {
       setLoading(true);
       const res = await postAPI("/api/users/register", body, toast);
-      navigate("/login");
+      console.log({ res });
+      // navigate("/login")
     } catch (error) {
       console.log(error);
     } finally {
@@ -72,7 +86,7 @@ const index = () => {
   return (
     <AuthInnerPage image="https://purisconsulting.com/wp-content/uploads/2019/01/Company-Branding_team-work.png">
       <form onSubmit={formik.handleSubmit} className={styles["form-container"]}>
-        <h1 className={styles["heading"]}>Register Page</h1>
+        <h1 className={styles["heading"]}> New Register</h1>
 
         <div className={styles["fields-container"]}>
           <Input
@@ -83,12 +97,7 @@ const index = () => {
           />
         </div>
         <div className={styles["fields-container"]}>
-          <Input
-            placeholder="Name"
-            id="name"
-            register="name"
-            formik={formik}
-          />
+          <Input placeholder="Name" id="name" register="name" formik={formik} />
         </div>
 
         <div className={styles["fields-container"]}>
@@ -122,9 +131,7 @@ const index = () => {
             <option value="jobseeker">Job Seeker</option>
           </select>
           {formik.touched.role && formik.errors.role && (
-            <p className="text-red-500 text-sm">
-              {formik.errors.role}
-            </p>
+            <p className="text-red-500 text-sm">{formik.errors.role}</p>
           )}
         </div>
 
@@ -133,8 +140,17 @@ const index = () => {
           type="submit"
           className={styles["submit"]}
         >
-          {loading ? <Spin /> : 'Register'}
+          {loading ? <Spin /> : "Register"}
         </button>
+        <span className="mb-3 text-gray-500 dark:text-gray-400">
+          Alredy Register?{" "}
+          <span
+            onClick={() => navigate("/login")}
+            className="text-primary cursor-pointer"
+          >
+            Login Here
+          </span>{" "}
+        </span>
       </form>
     </AuthInnerPage>
   );
