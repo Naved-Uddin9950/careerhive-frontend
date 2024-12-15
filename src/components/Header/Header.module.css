@@ -25,3 +25,7 @@
 .nav-item {
     @apply hover:text-complementary cursor-pointer;
 }
+
+.auth-button {
+    @apply text-2xl hover:text-gray-200 cursor-pointer;
+}
