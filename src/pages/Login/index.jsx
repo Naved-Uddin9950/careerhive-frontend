@@ -12,18 +12,22 @@ import { useAuth } from "../../contexts/AuthContext";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
 const Login = () => {
+  const navigate = useNavigate();
 
+  const { pathname } = useLocation();
+  const storedUser = Cookies.get("user");
+  useEffect(() => {
+    if (!storedUser) {
+      navigate("/login");
+      return;
+    }
 
-    const navigate = useNavigate();
-    const { pathname } = useLocation();
-    const storedUser = Cookies.get("user");
     const userData = JSON.parse(storedUser);
-    useEffect(() => {
-      if ((pathname === "/login" || pathname === "/register") && userData) {
-        console.log({ pathname, userData });
-        navigate("/recruiter");
-      }
-    }, []);
+    if ((pathname === "/login" || pathname === "/register") && userData) {
+      console.log({ pathname, userData });
+      navigate("/recruiter");
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +49,6 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  
 
   const loginHandler = async (values, setSubmitting, resetForm) => {
     const body = {
@@ -54,9 +57,12 @@ const Login = () => {
     };
     try {
       setLoading(true);
-      const res = await postAPI("/api/users/login", body, toast);
-      login(res.data);
-      navigate("/recruiter");
+      const res = await postAPI("/users/login", body, toast);
+      console.log({ res });
+      if (res.status === 200) {
+        login(res?.data, res?.data?.message);
+        navigate("/recruiter");
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -81,6 +87,7 @@ const Login = () => {
 
         <div className={styles["fields-container"]}>
           <Input
+            type="password"
             placeholder="password"
             id="password"
             register="password"
