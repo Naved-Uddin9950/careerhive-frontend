@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from 'react';
+import { FaMapMarkerAlt, FaMoneyBillAlt, FaBriefcase, FaCode, FaUsers } from "react-icons/fa";
 import { getApi } from '../../utils/apiService';
+import styles from './Home.module.css';
 
 const JobListing = ({ job }) => {
     return (
-        <div className="bg-white shadow-lg p-6 rounded-lg w-full md:w-80">
-            <h3 className="font-semibold text-gray-800 text-xl">{job.title}</h3>
-            <p className="mt-2 text-gray-600"><strong>Location:</strong> {job.location || 'Not specified'}</p>
-            <p className="mt-1 text-gray-600"><strong>Salary:</strong> ₹{job.salaryMin || 0} - ₹{job.salaryMax || 0}</p>
-            <p className="mt-1 text-gray-600"><strong>Type:</strong> {job.type || 'Not specified'}</p>
-            <p className="mt-1 text-gray-600"><strong>Skills:</strong> {job.skills.length ? job.skills.join(', ') : 'Not listed'}</p>
-            <p className="mt-1 text-gray-600"><strong>Applications:</strong> {job.applications}</p>
-            <button className="bg-primary hover:bg-secondary mt-4 py-2 rounded-md w-full text-white transition">
+        <div className={styles["joblisting-container"]}>
+            <h3 className={styles["job-title"]}>{job.title}</h3>
+            <div className={styles["job-details"]}>
+                <FaMapMarkerAlt className={styles["icon"]} />
+                <span><strong>Location:</strong> {job.location || "Not specified"}</span>
+            </div>
+            <div className={styles["job-details"]}>
+                <FaMoneyBillAlt className={styles["icon"]} />
+                <span><strong>Salary:</strong> ₹{job.salaryMin || 0} - ₹{job.salaryMax || 0}</span>
+            </div>
+            <div className={styles["job-details"]}>
+                <FaBriefcase className={styles["icon"]} />
+                <span><strong>Type:</strong> {job.type || "Not specified"}</span>
+            </div>
+            <div className={styles["job-details"]}>
+                <FaCode className={styles["icon"]} />
+                <span><strong>Skills:</strong> {job.skills.length ? job.skills.join(", ") : "Not listed"}</span>
+            </div>
+            <div className={styles["job-details"]}>
+                <FaUsers className={styles["icon"]} />
+                <span><strong>Applications:</strong> {job.applications}</span>
+            </div>
+            <button className={styles["apply-button"]}>
                 Apply Now
             </button>
         </div>
@@ -19,10 +36,10 @@ const JobListing = ({ job }) => {
 
 const JobFilters = ({ jobTypes, locations, filters, onFilterChange }) => {
     return (
-        <div className="flex gap-6 mb-6">
+        <div className={styles["jobfilters-container"]}>
             <select
                 onChange={(e) => onFilterChange('type', e.target.value)}
-                className="p-2 border rounded"
+                className={styles["select-box"]}
                 defaultValue=""
             >
                 <option value="">All Job Types</option>
@@ -34,7 +51,7 @@ const JobFilters = ({ jobTypes, locations, filters, onFilterChange }) => {
             </select>
             <select
                 onChange={(e) => onFilterChange('location', e.target.value)}
-                className="p-2 border rounded"
+                className={styles["select-box"]}
                 defaultValue=""
             >
                 <option value="">All Locations</option>
@@ -44,8 +61,8 @@ const JobFilters = ({ jobTypes, locations, filters, onFilterChange }) => {
                     </option>
                 ))}
             </select>
-            <div className="w-full max-w-sm">
-                <label className="block mb-2 font-medium text-gray-700 text-sm">
+            <div className={styles["salaryrange-container"]}>
+                <label className={styles["salaryrange-label"]}>
                     Salary Range (₹{filters.salary})
                 </label>
                 <input
@@ -55,9 +72,9 @@ const JobFilters = ({ jobTypes, locations, filters, onFilterChange }) => {
                     step="1000"
                     value={filters.salary}
                     onChange={(e) => onFilterChange('salary', parseInt(e.target.value, 10))}
-                    className="w-full"
+                    className={styles["salaryrange-input"]}
                 />
-                <div className="flex justify-between text-gray-600 text-sm">
+                <div className={styles["salaryrange"]}>
                     <span>₹0</span>
                     <span>₹20000</span>
                 </div>
@@ -122,27 +139,27 @@ const JobListingPage = () => {
     const locations = Array.from(new Set(jobs.map((job) => job.location)));
 
     return (
-        <div className="bg-gray-100 min-h-screen">
-            <section className="bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 py-16 text-center text-white">
-                <h1 className="font-bold text-4xl">Find Your Dream Job</h1>
-                <p className="mt-4 text-lg">Browse through the latest job opportunities tailored for you.</p>
+        <div className={styles["home-container"]}>
+            <section className={styles["hero-section"]}>
+                <h1 className={styles["hero-title"]}>Find Your Dream Job</h1>
+                <p className={styles["hero-paragraph"]}>Browse through the latest job opportunities tailored for you.</p>
             </section>
 
-            <section className="mx-auto px-4 py-8 container">
+            <section className={styles["joblistings-section"]}>
                 <JobFilters
                     jobTypes={jobTypes}
                     locations={locations}
                     onFilterChange={handleFilterChange}
                     filters={filters}
                 />
-                <h2 className="mb-6 font-semibold text-2xl text-gray-800">Available Jobs</h2>
-                <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <h2 className={styles["title"]}>Available Jobs</h2>
+                <div className={styles["loading-container"]}>
                     {loading ? (
-                        <p className="text-gray-600">Loading jobs...</p>
+                        <p className={styles["loading"]}>Loading jobs...</p>
                     ) : filteredJobs.length > 0 ? (
                         filteredJobs.map((job) => <JobListing key={job._id} job={job} />)
                     ) : (
-                        <p className="text-gray-600">No jobs found.</p>
+                        <p className={styles["loading"]}>No jobs found.</p>
                     )}
                 </div>
             </section>

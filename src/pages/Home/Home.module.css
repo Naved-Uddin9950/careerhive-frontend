@@ -1,0 +1,75 @@
+.joblisting-container {
+    @apply bg-gradient-to-br from-white to-gray-50 hover:from-blue-500 hover:to-pink-500 shadow-xl rounded-xl overflow-hidden border border-gray-300 p-6 transform hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 ease-in-out cursor-pointer hover:scale-105;
+}
+
+.job-title {
+    @apply font-bold text-gray-800 text-2xl mb-4 text-center truncate;
+}
+
+.job-details {
+    @apply flex items-center text-gray-700 text-sm my-3;
+}
+
+.icon {
+    @apply text-primary text-lg mr-3;
+}
+
+.apply-button {
+    @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg mt-6 w-full shadow-lg transform hover:scale-105 transition-all duration-300;
+}
+
+.jobfilters-container {
+    @apply flex gap-6 mb-6;
+}
+
+.select-box {
+    @apply p-2 border rounded;
+}
+
+.salaryrange-container {
+    @apply w-full max-w-sm;
+}
+
+.salaryrange-label {
+    @apply block mb-2 font-medium text-gray-700 text-sm;
+}
+
+.salaryrange-input {
+    @apply w-full;
+}
+
+.salaryrange {
+    @apply flex justify-between text-gray-600 text-sm;
+}
+
+.home-container {
+    @apply bg-gray-100 min-h-screen;
+}
+
+.hero-section {
+    @apply bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 py-16 text-center text-white;
+}
+
+.hero-title {
+    @apply font-bold text-4xl;
+}
+
+.hero-paragraph {
+    @apply mt-4 text-lg;
+}
+
+.joblistings-section {
+    @apply mx-auto px-4 py-8 container;
+}
+
+.title {
+    @apply mb-6 font-semibold text-2xl text-gray-800;
+}
+
+.loading-container {
+    @apply gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.loading {
+    @apply text-gray-600;
+}
