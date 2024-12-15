@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ErrorPage from "./pages/Error";
+import ComingSoon from './pages/ComingSoon';
 import Layout from "./pages/Layout";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -12,8 +13,10 @@ import RecruiterDashboard from "./pages/RecruiterDashboard";
 import AddPost from "./pages/RecruiterDashboard/JobPostings/AddPost";
 import JobPostings from "./pages/RecruiterDashboard/JobPostings";
 import Job from './pages/Job';
+import Profile from './pages/Profile';
 import Cookies from "js-cookie";
 import { useLocation } from "react-router-dom";
+
 const ProtectedRoute = ({ children }) => {
   const storedUser = Cookies.get("user");
   if (!storedUser) {
@@ -28,15 +31,12 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<Layout />} errorElement={<ErrorPage />}>
-          <Route
-            path=""
-            element={
-              <Home />
-            }
-          />
+          <Route path="" element={<Home />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>
         </Route>
+
         <Route
           path="/recruiter"
           element={
@@ -64,6 +64,7 @@ function App() {
 
         <Route path="*" element={<NotFound />} />
         <Route path="/error" element={<ErrorPage />} />
+        <Route path="/coming-soon" element={<ComingSoon />} />
       </Routes>
       <ToastContainer
         position="top-center"

@@ -8,7 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 const DashboardSidebar = ({ activeTab, setActiveTab }) => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="h-full">
       <Menu
@@ -17,6 +17,9 @@ const DashboardSidebar = ({ activeTab, setActiveTab }) => {
         onClick={(e) => setActiveTab(e.key)}
         className="h-full"
       >
+        <Menu.Item key="home" icon={<BarChartOutlined />} onClick={() => navigate("/")}>
+          Home
+        </Menu.Item>
         <Menu.Item key="stats" icon={<BarChartOutlined />}>
           Dashboard Stats
         </Menu.Item>

@@ -6,7 +6,7 @@ import Space from '../../components/Space';
 
 const index = () => {
     return (
-        <div className='w-screen h-full overflow-hidden'>
+        <div className='h-full overflow-hidden'>
             <Header />
             <Outlet />
             {/* <Footer /> */}

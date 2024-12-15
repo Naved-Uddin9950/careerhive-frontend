@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { message } from "antd";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -26,7 +27,8 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(true);
     Cookies.set("user", JSON.stringify(userData.user), { expires: 7 });
     Cookies.set("token", JSON.stringify(userData.token), { expires: 7 });
-    toast.success(msg);
+    // toast.success(msg);
+    message.success(msg);
   };
 
   const logout = () => {
@@ -35,7 +37,8 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove("user");
     Cookies.remove("token");
     navigate("/login");
-    toast.success("logout success");
+    // toast.success("logout success");
+    message.success("logout successfully!");
   };
   return (
     <AuthContext.Provider
