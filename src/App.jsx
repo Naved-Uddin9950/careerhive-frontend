@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ErrorPage from "./pages/Error";
+import ComingSoon from './pages/ComingSoon';
 import Layout from "./pages/Layout";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -64,6 +65,7 @@ function App() {
 
         <Route path="*" element={<NotFound />} />
         <Route path="/error" element={<ErrorPage />} />
+        <Route path="/coming-soon" element={<ComingSoon />} />
       </Routes>
       <ToastContainer
         position="top-center"
