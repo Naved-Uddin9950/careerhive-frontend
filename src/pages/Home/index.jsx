@@ -2,8 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { FaMapMarkerAlt, FaMoneyBillAlt, FaBriefcase, FaCode, FaUsers } from "react-icons/fa";
 import { getApi } from '../../utils/apiService';
 import styles from './Home.module.css';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import { message } from 'antd';
 
 const JobListing = ({ job }) => {
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
+
+    const apply = () => {
+        if (!isAuthenticated) {
+            return message.warning("Login to apply for the job");
+        }
+        navigate(`/jobseeker/job?id=${job._id}`);
+    }
+
     return (
         <div className={styles["joblisting-container"]}>
             <h3 className={styles["job-title"]}>{job.title}</h3>
@@ -27,7 +40,7 @@ const JobListing = ({ job }) => {
                 <FaUsers className={styles["icon"]} />
                 <span><strong>Applications:</strong> {job.applications}</span>
             </div>
-            <button className={styles["apply-button"]}>
+            <button className={styles["apply-button"]} onClick={apply}>
                 Apply Now
             </button>
         </div>
