@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { getApi } from '../../utils/apiService';
+import styles from './Job.module.css';
+import { Spin } from 'antd';
+import { useAuth } from '../../contexts/AuthContext';
 
 const JobDetailsPage = () => {
     const [query] = useSearchParams();
-    const id = query.get("id");
+    const id = query.get('id');
     const [jobDetails, setJobDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchJobDetails = async () => {
             try {
                 const response = await getApi(`/recruiter/post?id=${id}`);
-                setJobDetails(response.data.data); // Adjust to use correct path
-                console.log(response.data.data); // For debugging purposes
+                setJobDetails(response.data.data);
             } catch (err) {
                 setError('Error fetching job details');
             } finally {
@@ -27,87 +30,125 @@ const JobDetailsPage = () => {
 
     if (loading) {
         return (
-            <div className="mt-12 text-center">
-                <span className="text-lg">Loading job details...</span>
+            <div className={styles["loader-container"]}>
+                <div className={styles["loader"]}>
+                    <Spin />
+                    <span className={styles["loader-text"]}>Loading job details...</span>
+                </div>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="mt-12 text-center">
-                <span className="text-lg text-red-600">{error}</span>
+            <div className={styles["error-container"]}>
+                <span className={styles["error"]}>{error}</span>
             </div>
         );
     }
 
     if (!jobDetails) {
         return (
-            <div className="mt-12 text-center">
-                <span className="text-lg">No job details found</span>
+            <div className={styles["nojob-container"]}>
+                <span className={styles["nojob"]}>No job details found</span>
             </div>
         );
     }
 
     const { jobPost, applications } = jobDetails;
 
+    const apply = async () => {
+        console.log(applications);
+    }
+
     return (
-        <div className="bg-gray-100 min-h-screen">
-            <section className="bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 py-16 text-center text-white">
-                <h1 className="font-bold text-4xl">{jobPost.title}</h1>
-                <p className="mt-4 text-lg">{jobPost.location}</p>
+        <div className={styles["job-container"]}>
+            <section className={styles["hero-section"]}>
+                <h1 className={styles["hero-title"]}>{jobPost.title}</h1>
+                <p className={styles["hero-papagraph"]}>{jobPost.location || 'Location not specified'}</p>
             </section>
 
-            <section className="mx-auto px-4 py-8 container">
-                <div className="bg-white shadow-lg p-6 rounded-lg">
-                    <h3 className="font-semibold text-gray-800 text-xl">Job Description</h3>
-                    <p className="mt-2 text-gray-600">{jobPost.description}</p>
-                    <div className="mt-4">
-                        <h4 className="font-semibold text-gray-700">Salary:</h4>
-                        <p className="text-gray-600">₹{jobPost.salaryMin} - ₹{jobPost.salaryMax}</p>
-                    </div>
-                    <div className="mt-4">
-                        <h4 className="font-semibold text-gray-700">Job Type:</h4>
-                        <p className="text-gray-600">{jobPost.type}</p>
-                    </div>
-                    <div className="mt-4">
-                        <h4 className="font-semibold text-gray-700">Required Skills:</h4>
-                        <ul className="pl-6 text-gray-600 list-disc">
-                            {jobPost.skills.length ? (
-                                jobPost.skills.map((skill, index) => <li key={index}>{skill}</li>)
-                            ) : (
-                                <li>Not specified</li>
-                            )}
-                        </ul>
+            <section className={styles["details-section"]}>
+                <div className={styles["details-container"]}>
+                    <div className={styles["description-container"]}>
+                        <h2 className={styles["description-label"]}>Job Description</h2>
+                        <p className={styles["description"]}>{jobPost.description}</p>
                     </div>
 
-                    <div className="mt-4">
-                        <h4 className="font-semibold text-gray-700">Applications:</h4>
+                    <div className={styles["jobinfo-container"]}>
+                        <div>
+                            <h3 className={styles["jobinfo-labels"]}>Salary</h3>
+                            <p className={styles["jobinfo"]}>₹{jobPost.salaryMin} - ₹{jobPost.salaryMax}</p>
+                        </div>
+                        <div>
+                            <h3 className={styles["jobinfo-labels"]}>Job Type</h3>
+                            <p className={styles["jobinfo"]}>{jobPost.type || 'Not specified'}</p>
+                        </div>
+                        <div className={styles["skills-section"]}>
+                            <h3 className={styles["jobinfo-labels"]}>Required Skills</h3>
+                            <div className={styles["skills-container"]}>
+                                {jobPost.skills.length ? (
+                                    jobPost.skills.map((skill, index) => (
+                                        <span
+                                            key={index}
+                                            className={styles["skills"]}
+                                        >
+                                            {skill}
+                                        </span>
+                                    ))
+                                ) : (
+                                    <span className={styles["jobinfo"]}>Not specified</span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={styles["applications-section"]}>
+                        <h3 className={styles["application-title"]}>Applications</h3>
                         {applications.length ? (
-                            <ul className="text-gray-600">
+                            <ul className={styles["applications-list"]}>
                                 {applications.map((application) => (
-                                    <li key={application._id} className="mt-4">
+                                    <li
+                                        key={application._id}
+                                        className={styles["application-item"]}
+                                    >
                                         <div>
-                                            <strong>Email:</strong> {application.email}
+                                            <strong>Name:</strong> {application.fullname}
                                         </div>
+                                        {user?.role === "recruiter" &&
+                                            <div>
+                                                <strong>Email:</strong> {application.email}
+                                            </div>
+                                        }
                                         <div>
                                             <strong>Status:</strong> {application.status}
                                         </div>
                                         <div>
-                                            <strong>Applied At:</strong> {new Date(application.appliedAt).toLocaleString()}
+                                            <strong>Applied At:</strong>{' '}
+                                            {new Date(application.appliedAt).toLocaleString()}
                                         </div>
-                                        <div>
-                                            <strong>Resume:</strong> <a href={application.resume} target="_blank" rel="noopener noreferrer">View Resume</a>
-                                        </div>
+                                        {user?.role === "recruiter" &&
+                                            <div>
+                                                <strong>Resume:</strong>{' '}
+                                                <a
+                                                    href={application.resume}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-600 underline"
+                                                >
+                                                    View Resume
+                                                </a>
+                                            </div>
+                                        }
                                     </li>
                                 ))}
                             </ul>
                         ) : (
-                            <p>No applications yet</p>
+                            <p className={styles["no-application"]}>No applications yet</p>
                         )}
                     </div>
 
-                    <button className="bg-primary hover:bg-secondary mt-6 px-4 py-2 rounded-md w-full text-white transition">
+                    <button className={styles["apply-button"]} onClick={apply}>
                         Apply Now
                     </button>
                 </div>
