@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import AuthInnerPage from "../../components/AuthInnerPage";
 import Input from "../../components/Input";
 import styles from "./Login.module.css";
-import { Spin } from "antd";
+import { message, Spin } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { postAPI } from "../../utils/apiService";
 import { toast } from "react-toastify";
@@ -61,7 +61,13 @@ const Login = () => {
       console.log({ res });
       if (res.status === 200) {
         login(res?.data, res?.data?.message);
-        navigate("/recruiter");
+        if (res?.data?.user?.role === "recruiter") {
+          return navigate("/recruiter");
+        } else if (res?.data?.user?.role === "jobseeker") {
+          return navigate("/");
+        } else {
+          message.info("Unknown role");
+        }
       }
     } catch (error) {
       console.log(error);
