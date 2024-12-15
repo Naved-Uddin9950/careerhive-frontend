@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getApi } from '../../utils/apiService';
+import { getApi, postAPIAuth } from '../../utils/apiService';
 import styles from './Job.module.css';
-import { Spin } from 'antd';
+import { Spin, Modal, Input, message } from 'antd';
 import { useAuth } from '../../contexts/AuthContext';
 
 const JobDetailsPage = () => {
@@ -11,7 +11,9 @@ const JobDetailsPage = () => {
     const [jobDetails, setJobDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { user } = useAuth();
+    const { user, token } = useAuth();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [resumeLink, setResumeLink] = useState('');
 
     useEffect(() => {
         const fetchJobDetails = async () => {
@@ -27,6 +29,68 @@ const JobDetailsPage = () => {
 
         fetchJobDetails();
     }, [id]);
+
+    const isValidUrl = (url) => {
+        const regex = /^(ftp|http|https):\/\/[^ "]+$/;
+        return regex.test(url);
+    };
+
+    const isUrlReachable = async (url) => {
+        try {
+            const response = await fetch(url, { method: 'HEAD' });
+            return response.ok;
+        } catch (error) {
+            return false;
+        }
+    };
+
+    const handleApplyClick = () => {
+        if (jobDetails.createdBy === user.id) {
+            return message.error("You can't apply for your own job");
+        }
+        setIsModalVisible(true);
+    };
+
+    const handleOk = async () => {
+        if (!resumeLink) {
+            message.error('Please provide a resume link');
+            return;
+        }
+        if (!isValidUrl(resumeLink)) {
+            message.error('Please enter a valid resume URL.');
+            return;
+        }
+        const reachable = await isUrlReachable(resumeLink);
+        if (!reachable) {
+            message.error('The resume link is not reachable. Please check the link.');
+            return;
+        }
+        try {
+            const payload = {
+                jobPostId: jobDetails.jobPost._id,
+                resume: resumeLink,
+            };
+            const response = await postAPIAuth(`/jobseeker/apply`, payload, token);
+            console.log("djkdjskdj : ", jobDetails);
+            if (response.response.success) {
+                message.success("Applied successfully!");
+            } else {
+                message.error(response.response.data.message);
+            }
+            setIsModalVisible(false);
+        } catch (error) {
+            console.error("Error applying for job: ", error);
+            message.error('Error applying for job');
+        }
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleResumeLinkChange = (e) => {
+        setResumeLink(e.target.value);
+    };
 
     if (loading) {
         return (
@@ -56,10 +120,6 @@ const JobDetailsPage = () => {
     }
 
     const { jobPost, applications } = jobDetails;
-
-    const apply = async () => {
-        console.log(applications);
-    }
 
     return (
         <div className={styles["job-container"]}>
@@ -148,9 +208,30 @@ const JobDetailsPage = () => {
                         )}
                     </div>
 
-                    <button className={styles["apply-button"]} onClick={apply}>
+                    <button className={styles["apply-button"]} onClick={handleApplyClick}>
                         Apply Now
                     </button>
+
+                    <Modal
+                        title="Apply for the Job"
+                        visible={isModalVisible}
+                        onOk={handleOk}
+                        onCancel={handleCancel}
+                        okText="Apply"
+                    >
+                        <div>
+                            <label htmlFor="resume-link" className="block font-medium text-gray-700 text-sm">
+                                Resume Link
+                            </label>
+                            <Input
+                                id="resume-link"
+                                value={resumeLink}
+                                onChange={handleResumeLinkChange}
+                                placeholder="Enter your resume URL"
+                                className="mt-2"
+                            />
+                        </div>
+                    </Modal>
                 </div>
             </section>
         </div>
