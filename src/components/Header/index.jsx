@@ -15,6 +15,10 @@ const Header = () => {
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+    const profile = () => {
+        navigate(`/profile?id=${user.id}`);
+    }
+
     return (
         <div className='relative'>
             <header className={styles["header-container"]}>
@@ -43,14 +47,22 @@ const Header = () => {
                         <div className={styles["nav-container"]}>
                             <p onClick={() => navigate('/')} className={styles["nav-item"]}>Home</p>
                             <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>Jobs</p>
-                            <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>Messages</p>
-                            <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>My Network</p>
+                            {user?.role === "jobseeker" &&
+                                <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>
+                                    My Applications
+                                </p>
+                            }
+                            {user?.role === "recruiter" &&
+                                <p onClick={() => navigate('/recruiter')} className={styles["nav-item"]}>
+                                    Dashboard
+                                </p>
+                            }
                         </div>
 
                         {/* User Profile and Auth Buttons */}
                         <div className="flex items-center space-x-4 pl-2">
                             <FaBell className="text-xl hover:text-gray-200 cursor-pointer" />
-                            <FaUserCircle className="text-2xl hover:text-gray-200 cursor-pointer" />
+                            <FaUserCircle className="text-2xl hover:text-gray-200 cursor-pointer" onClick={profile} />
                             {isAuthenticated ?
                                 <BiLogOut className={styles["auth-button"]} onClick={logout} /> :
                                 <BiLogIn className={styles["auth-button"]} onClick={() => navigate('/login')} />
@@ -66,10 +78,17 @@ const Header = () => {
                 <div className="flex flex-col gap-4 sm:hidden bg-tertiary shadow-md px-4">
                     <p onClick={() => navigate('/')} className={styles["nav-item"]}>Home</p>
                     <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>Jobs</p>
-                    <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>Messages</p>
-                    <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>My Network</p>
-                    <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>Notifications</p>
-                    <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>Profile</p>
+                    {user?.role === "jobseeker" &&
+                        <p onClick={() => navigate('/coming-soon')} className={styles["nav-item"]}>
+                            My Applications
+                        </p>
+                    }
+                    {user?.role === "recruiter" &&
+                        <p onClick={() => navigate('/recruiter')} className={styles["nav-item"]}>
+                            Dashboard
+                        </p>
+                    }
+                    <p onClick={profile} className={styles["nav-item"]}>Profile</p>
                     {isAuthenticated ?
                         <p onClick={logout} className={styles["nav-item"]}>Logout</p> :
                         <p onClick={() => navigate('/login')} className={styles["nav-item"]}>Login</p>

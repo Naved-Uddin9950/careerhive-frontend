@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     Cookies.remove("user");
     Cookies.remove("token");
+    navigate("/login");
     // toast.success("logout success");
     message.success("logout successfully!");
   };
